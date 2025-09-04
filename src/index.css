@@ -1,0 +1,15 @@
+body {
+  background-color: rgb(255, 255, 255);
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.ql-container{
+  border: none !important;
+}
+.ql-toolbar{
+  border: none !important;
+}
+.ql-editor{
+  border: none !important;
+}
