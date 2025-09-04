@@ -8,6 +8,7 @@ import { format } from "timeago.js"
 import Image from "../components/Image"
 import Tags from "../components/Tags"
 import UserSubscribe from "../components/UserSubscribe"
+import SocialShare from "../components/SocialShare"
 
 const fetchPost = async (slug) => {
   const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`)
@@ -34,7 +35,7 @@ const SinglePost = () => {
           <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">
             {data.title}
           </h1>
-          <Tags/>
+          <Tags />
           <div className="flex items-center gap-2 text-gray-400 text-sm">
             <span>Written by</span>
             <Link className="text-lime-500 font-serif ">{data.user.username}</Link>
@@ -64,23 +65,16 @@ const SinglePost = () => {
                 src={data.user.img}
                 className="w-12 h-12 rounded-full object-cover"
                 w="48"
-                h="48"  
+                h="48"
               />}
 
               <Link className="text-lime-500 font-serif text-sm">{data.user.username}</Link>
-              <UserSubscribe bloggerId={data.user._id}/>
+              <UserSubscribe bloggerId={data.user._id} />
             </div>
             <p className="text-sm text-gray-500">
-              Nor is there anyone who loves, pursues, or desires pain itself, because it is pain...
+              {data?.user?.bio? data.user.bio :"Nor is there anyone who loves, pursues, or desires pain itself, because it is pain..."}
             </p>
-            <div className="flex gap-2">
-              <Link>
-                <img src="/K.jpg" width={20} />
-              </Link>
-              <Link>
-                <img src="/K.jpg" width={20} />
-              </Link>
-            </div>
+            <SocialShare post={data} />
           </div>
           <PostmenuActions post={data} />
           <h1 className="mt-8 mb-4 text-sm font-medium">Categories</h1>

@@ -77,7 +77,7 @@ const UserSubscribe = ({ bloggerId }) => {
       <button
         onClick={() => unsubscribeMutation.mutate()}
         disabled={unsubscribeMutation.isPending}
-        className="px-4 py-2 rounded-xl bg-red-500 text-white font-medium disabled:bg-red-300"
+        className="p-1 rounded-xl bg-red-500 text-white font-medium text-sm disabled:bg-red-300"
       >
         {unsubscribeMutation.isPending ? "Unsubscribing..." : "Unsubscribe"}
       </button>
@@ -87,7 +87,7 @@ const UserSubscribe = ({ bloggerId }) => {
       <button
         onClick={() => subscribeMutation.mutate()}
         disabled={subscribeMutation.isPending}
-        className="px-4 py-2 rounded-xl bg-green-500 text-white font-medium disabled:bg-green-300"
+        className="p-1 rounded-xl bg-lime-500 text-white text-sm font-medium disabled:bg-lime-300"
       >
         {subscribeMutation.isPending ? "Subscribing..." : "Subscribe"}
       </button>

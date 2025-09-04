@@ -53,13 +53,13 @@ const NotificationBell = () => {
 
       {showNotifications && (
         <div className="absolute right-0 mt-2 w-50 bg-white rounded-lg shadow-lg border-1 border-lime-400 z-1 p-4">
-          <h3 className="font-bold text-lg text-gray-400 border-b pb-2 mb-2">New Posts</h3>
+          <h3 className="font-bold text-lg text-gray-400 border-b pb-2 mb-2"><span className="text-lime-400">Ne</span><span className="text-lime-500">w</span><span className="text-lime-600"> Pos</span><span className="text-lime-700">ts</span></h3>
           {newNotifications.length > 0 ? (
             <ul className="space-y-2 max-h-50 overflow-y-auto">
               {newNotifications.map(post => (
                 <li key={post._id} className="p-2 border border-lime-300 rounded-md hover:bg-lime-50">
-                  <Link to={`/${post.slug}`} className="text-sm font-medium text-gray-400 hover:underline hover:text-indigo-400">{post.title}</Link>
-                  <p className="text-xs text-lime-400"><span className="text-lime-600">By </span>{post.user.username}</p>
+                  <Link to={`/${post.slug}`} className="text-sm font-medium text-blue-400 hover:underline hover:text-indigo-400">{post.title}</Link>
+                  <p className="text-xs text-blue-300"><span className="text-indigo-300">By </span>{post.user.username}</p>
                 </li>
               ))}
             </ul>

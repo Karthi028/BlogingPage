@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { useNavigate } from "react-router"
 import { toast } from "react-toastify"
+import PostAnalytics from "./PostAnalytics "
 
 const PostmenuActions = ({ post }) => {
 
@@ -24,6 +25,8 @@ const PostmenuActions = ({ post }) => {
 
   const isSaved = savedPost?.data?.some(p => p === post._id) || false;
   const isAdmin = user?.publicMetadata?.role === 'admin' || false;
+  const isPostOwner = post?.user?.username === user?.username || 'Guest';
+  const shouldRender = isPostOwner || isAdmin;
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
@@ -223,6 +226,7 @@ const PostmenuActions = ({ post }) => {
         {deleteMutation.isPending && <span className="text-xs">(in progress)</span>}
 
       </div>}
+      { shouldRender  && <div><PostAnalytics post={post}/></div> }
 
 
     </div>
