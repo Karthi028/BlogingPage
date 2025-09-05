@@ -3,8 +3,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-// Define the API URL as a constant
-const API_URL = 'http://localhost:3000/api/v1';
 
 const UserSubscribe = ({ bloggerId,clerkUserId }) => {
 
@@ -17,7 +15,7 @@ const UserSubscribe = ({ bloggerId,clerkUserId }) => {
     queryKey: ['subscriptions', isSignedIn ? user.id : null],
     queryFn: async () => {
       const token = await getToken();
-      const response = await axios.get(`${API_URL}/users/subscriptions`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/subscriptions`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -29,7 +27,7 @@ const UserSubscribe = ({ bloggerId,clerkUserId }) => {
   const subscribeMutation = useMutation({
     mutationFn: async () => {
       const token = await getToken();
-      await axios.post(`${API_URL}/users/subscribe/${bloggerId}`, {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/users/subscribe/${bloggerId}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
     },
@@ -46,7 +44,7 @@ const UserSubscribe = ({ bloggerId,clerkUserId }) => {
   const unsubscribeMutation = useMutation({
     mutationFn: async () => {
       const token = await getToken();
-      await axios.post(`${API_URL}/users/unsubscribe/${bloggerId}`, {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/users/unsubscribe/${bloggerId}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
     },
@@ -64,11 +62,6 @@ const UserSubscribe = ({ bloggerId,clerkUserId }) => {
     return null;
   }
 
-  console.log("user.id:",user.id)
-  console.log("ClerkId:",clerkUserId)
-  console.log("bloggerId:",bloggerId)
-  console.log("subscriptions.username",subscriptions)
-  console.log("user.username:",user.username)
   // Also, don't show the button on the user's own profile.
   if (user.id === clerkUserId ) {
     return null;

@@ -4,11 +4,9 @@ import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router";
 
-// Define the API URL as a constant to avoid compilation errors
-const API_URL = 'http://localhost:3000/api/v1';
 
 const fetchNotifications = async (token) => {
-  const response = await axios.get(`${API_URL}/users/notifications`, {
+  const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/notifications`, {
     headers: { Authorization: `Bearer ${token}` }
   });
   return response.data;
