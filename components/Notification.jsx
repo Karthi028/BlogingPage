@@ -1,7 +1,7 @@
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 
 
@@ -16,6 +16,20 @@ const NotificationBell = () => {
   const { getToken, isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
   const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [notificationRef]);
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -37,7 +51,7 @@ const NotificationBell = () => {
   const notificationCount = newNotifications.length;
 
   return (
-    <div className="relative">
+    <div className="relative" ref={notificationRef}>
       <button
         onClick={() => setShowNotifications(!showNotifications)}
         className="relative"

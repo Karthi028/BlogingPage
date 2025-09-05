@@ -133,12 +133,26 @@ const ContentWrite = () => {
   const handleTagInput = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-    }
-    const inputValue = e.target.value.trim();
-    if ((e.key === 'Enter' || e.key === ',') && inputValue) {
-      if (!tags.includes(inputValue)) {
+      const inputValue = e.target.value.trim();
+      if (inputValue && !tags.includes(inputValue)) {
         setTags([...tags, inputValue]);
+        e.target.value = '';
       }
+    }
+    if (e.key === ',') {
+      e.preventDefault();
+      const inputValue = e.target.value.slice(0, -1).trim();
+      if (inputValue && !tags.includes(inputValue)) {
+        setTags([...tags, inputValue]);
+        e.target.value = '';
+      }
+    }
+  };
+
+  const handleAddTagOnBlur = (e) => {
+    const inputValue = e.target.value.trim();
+    if (inputValue && !tags.includes(inputValue)) {
+      setTags([...tags, inputValue]);
       e.target.value = '';
     }
   };
@@ -255,6 +269,7 @@ const ContentWrite = () => {
                 type="text"
                 placeholder="e.g., programming, webdev"
                 onKeyDown={handleTagInput}
+                onBlur={handleAddTagOnBlur}
                 onKeyUp={(e) => e.key === ',' && (e.target.value = '')}
               />
             </div>

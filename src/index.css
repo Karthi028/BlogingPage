@@ -4,23 +4,35 @@ body {
   overflow-x: hidden;
 }
 
-.ql-container{
+.ql-container {
   border: none !important;
 }
-.ql-toolbar{
+
+.ql-toolbar {
   border: none !important;
 }
-.ql-editor{
+
+.ql-editor {
   border: none !important;
 }
 
 .recharts-container-wrapper svg {
-    outline: none !important;
+  outline: none !important;
 }
 
 .bungee-regular {
   font-family: "Bungee", sans-serif;
   font-weight: 400;
-  font-style: normal;  
+  font-style: normal;
+}
+
+@media (max-width: 640px) {
+
+  
+  .cl-userButtonPopoverCard {
+    top: 5rem !important;
+    left: 1rem !important;
+   
+  }
 }
 

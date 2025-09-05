@@ -6,12 +6,11 @@ const Sidemenu = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleFilterChange = (e) => {
-    if (searchParams.get("sort") !== e.target.value) {
-      setSearchParams({
-        ...Object.fromEntries(searchParams.entries()),
-        sort: e.target.value,
-      });
-    }
+    setSearchParams(prev => {
+      const newSearchParams = new URLSearchParams(prev);
+      newSearchParams.set("sort", e.target.value);
+      return newSearchParams;
+    });
   };
 
   const handleCategoryChange = (category) => {
@@ -35,6 +34,7 @@ const Sidemenu = () => {
             name="sort"
             onChange={handleFilterChange}
             value="newest"
+            checked={searchParams.get("sort") === "newest"}
             className="appearance-none w-4 h-4 border-[1.5px] border-lime-600 cursor-pointer rounded-sm bg-white checked:bg-lime-400"
           />
           Newest
@@ -45,6 +45,7 @@ const Sidemenu = () => {
             name="sort"
             onChange={handleFilterChange}
             value="popular"
+            checked={searchParams.get("sort") === "popular"}
             className="appearance-none w-4 h-4 border-[1.5px] border-lime-600 cursor-pointer rounded-sm bg-white checked:bg-lime-400"
           />
           Most Popular
@@ -55,6 +56,7 @@ const Sidemenu = () => {
             name="sort"
             onChange={handleFilterChange}
             value="trending"
+            checked={searchParams.get("sort") === "trending"}
             className="appearance-none w-4 h-4 border-[1.5px] border-lime-600 cursor-pointer rounded-sm bg-white checked:bg-lime-400"
           />
           Trending
@@ -65,6 +67,7 @@ const Sidemenu = () => {
             name="sort"
             onChange={handleFilterChange}
             value="oldest"
+            checked={searchParams.get("sort") === "oldest"}
             className="appearance-none w-4 h-4 border-[1.5px]  border-lime-600 cursor-pointer rounded-sm bg-white checked:bg-lime-400"
           />
           Oldest
