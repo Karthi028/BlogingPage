@@ -9,6 +9,7 @@ import Image from "../components/Image"
 import Tags from "../components/Tags"
 import UserSubscribe from "../components/UserSubscribe"
 import SocialShare from "../components/SocialShare"
+import { useUser } from "@clerk/clerk-react"
 
 const fetchPost = async (slug) => {
   const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`)
@@ -18,6 +19,7 @@ const fetchPost = async (slug) => {
 const SinglePost = () => {
 
   const { slug } = useParams();
+  const {user} = useUser();
   const { isPending, error, data } = useQuery({
     queryKey: ['post', slug],
     queryFn: () => fetchPost(slug)
@@ -38,7 +40,7 @@ const SinglePost = () => {
           <Tags />
           <div className="flex items-center gap-2 text-gray-400 text-sm">
             <span>Written by</span>
-            <Link className="text-lime-500 font-serif ">{data.user.username}</Link>
+            <Link to={`/authorsPage?author=${data.user.username}`} className="text-lime-500 font-serif ">{data.user.username}</Link>
             <span>on</span>
             <Link className="text-lime-500 font-serif">{data.category}</Link>
             <span>{format(data.createAt)}</span>
@@ -67,9 +69,8 @@ const SinglePost = () => {
                 w="48"
                 h="48"
               />}
-
               <Link className="text-lime-500 font-serif text-sm">{data.user.username}</Link>
-              <UserSubscribe bloggerId={data.user._id} />
+              <UserSubscribe bloggerId={data.user._id} clerkUserId={data.user?.clerkUserId} />
             </div>
             <p className="text-sm text-gray-500">
               {data?.user?.bio? data.user.bio :"Nor is there anyone who loves, pursues, or desires pain itself, because it is pain..."}

@@ -13,3 +13,14 @@ body {
 .ql-editor{
   border: none !important;
 }
+
+.recharts-container-wrapper svg {
+    outline: none !important;
+}
+
+.bungee-regular {
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-style: normal;  
+}
+

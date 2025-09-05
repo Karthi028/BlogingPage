@@ -8,6 +8,7 @@ import SinglePost from "../pages/Singlepost.jsx"
 import PostlistsPage from "../pages/PostlistsPage.jsx"
 import BlogPage from "../pages/Blogpage.jsx"
 import DraftsDashboard from "../components/DraftsDashboard .jsx"
+import AuthorsPage from "../pages/AuthorsPage.jsx"
 
 
 const App = () => {
@@ -46,6 +47,10 @@ const App = () => {
           path:'/dashboard/drafts',
           element:<DraftsDashboard/>
         },
+        {
+          path:'/authorsPage',
+          element:<AuthorsPage/>
+        }
       ]
     }
 

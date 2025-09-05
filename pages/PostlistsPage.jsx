@@ -2,7 +2,7 @@ import { useState } from "react"
 import Postlists from "../components/Postlists"
 import Sidemenu from "../components/Sidemenu"
 
-const PostlistsPage = ({post}) => {
+const PostlistsPage = () => {
   const [open,setopen] = useState(false);
 
   return (

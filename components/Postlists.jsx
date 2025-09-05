@@ -33,15 +33,11 @@ const Postlists = () => {
         getNextPageParam: (lastPage, pages) => lastPage.hasMore ? pages.length + 1 : undefined,
     })
 
-    console.log(data)
-
     const allPosts = data?.pages?.flatMap((page) => page.posts) || [];
 
     if (status === "loading") return 'Loading...'
 
     if (status === "error") return 'An error has occurred';
-
-    console.log(data);
 
     return (
         <InfiniteScroll

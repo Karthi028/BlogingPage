@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { useState } from "react"
 import { Link } from "react-router";
 import NotificationBell from "../components/Notification";
@@ -6,6 +6,7 @@ import NotificationBell from "../components/Notification";
 const Navbar = () => {
 
   const [open, setopen] = useState(true);
+  const {user} = useUser();
 
   return (
     <div className="w-full h-16 sm:h-20 flex items-center justify-between">
@@ -23,7 +24,7 @@ const Navbar = () => {
           <Link className="hover:text-lime-600" to={'/'}>Home</Link>
           <Link className="hover:text-lime-600" to={'/posts'}>Trending</Link>
           <Link className="hover:text-lime-600" to={'/posts?sort=popular'}>Popular</Link>
-          <Link className="hover:text-lime-600 mb-2" to={'/'}>About</Link>
+          {user?.username && <Link className="hover:text-lime-600 mb-2" to={`/authorsPage?author=${user?.username}`}>Dashboard</Link>}
           <NotificationBell />
           <SignedOut>
             <Link to={'/login'}>
@@ -40,7 +41,7 @@ const Navbar = () => {
         <Link className="hover:text-lime-600" to={'/'}>Home</Link>
         <Link className="hover:text-lime-600" to={'/posts?sort=trending'}>Trending</Link>
         <Link className="hover:text-lime-600" to={'/posts?sort=popular'}>Popular</Link>
-        <Link className="hover:text-lime-600" to={'/'}>About</Link>
+        {user?.username && <Link className="hover:text-lime-600" to={`/authorsPage?author=${user?.username}`}>Dashboard</Link>}
         <NotificationBell />
         <SignedOut>
           <Link to={'/login'}>

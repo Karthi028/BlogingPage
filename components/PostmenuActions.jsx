@@ -25,7 +25,7 @@ const PostmenuActions = ({ post }) => {
 
   const isSaved = savedPost?.data?.some(p => p === post._id) || false;
   const isAdmin = user?.publicMetadata?.role === 'admin' || false;
-  const isPostOwner = post?.user?.username === user?.username || 'Guest';
+  const isPostOwner = post?.user?.username === user?.username;
   const shouldRender = isPostOwner || isAdmin;
 
   const deleteMutation = useMutation({

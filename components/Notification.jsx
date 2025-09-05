@@ -70,7 +70,7 @@ const NotificationBell = () => {
                 <path d="M12 8v4" />
                 <path d="M12 16h.01" />
               </svg>
-              <span>No new notifications.</span>
+              <span className="text-sm text-indigo-400">No new notifications.</span>
             </div>
           )}
         </div>

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 // Define the API URL as a constant
 const API_URL = 'http://localhost:3000/api/v1';
 
-const UserSubscribe = ({ bloggerId }) => {
+const UserSubscribe = ({ bloggerId,clerkUserId }) => {
 
   const { getToken, isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
@@ -64,8 +64,13 @@ const UserSubscribe = ({ bloggerId }) => {
     return null;
   }
 
+  console.log("user.id:",user.id)
+  console.log("ClerkId:",clerkUserId)
+  console.log("bloggerId:",bloggerId)
+  console.log("subscriptions.username",subscriptions)
+  console.log("user.username:",user.username)
   // Also, don't show the button on the user's own profile.
-  if (user.id === bloggerId) {
+  if (user.id === clerkUserId ) {
     return null;
   }
 
@@ -77,7 +82,7 @@ const UserSubscribe = ({ bloggerId }) => {
       <button
         onClick={() => unsubscribeMutation.mutate()}
         disabled={unsubscribeMutation.isPending}
-        className="p-1 rounded-xl bg-red-500 text-white font-medium text-sm disabled:bg-red-300"
+        className="p-1 rounded-xl bg-gradient-to-r from-red-400 to-red-600 text-white font-medium text-sm disabled:bg-red-300"
       >
         {unsubscribeMutation.isPending ? "Unsubscribing..." : "Unsubscribe"}
       </button>
@@ -87,7 +92,7 @@ const UserSubscribe = ({ bloggerId }) => {
       <button
         onClick={() => subscribeMutation.mutate()}
         disabled={subscribeMutation.isPending}
-        className="p-1 rounded-xl bg-lime-500 text-white text-sm font-medium disabled:bg-lime-300"
+        className="p-1 rounded-xl bg-gradient-to-r from-blue-700 to-purple-800 text-white text-sm font-medium disabled:bg-lime-300"
       >
         {subscribeMutation.isPending ? "Subscribing..." : "Subscribe"}
       </button>

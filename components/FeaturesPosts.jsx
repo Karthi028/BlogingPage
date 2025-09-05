@@ -32,10 +32,10 @@ const FeaturesPosts = () => {
                 {posts[0].img?.url && <Image key={posts[0].img.url} className="rounded-3xl object-cover" w="895" src={posts[0].img.url} alt="" />}
                 <div className="flex items-center gap-4">
                     <h1 className="font-semibold lg:text-lg">01.</h1>
-                    <p className="text-black font-bold lg:text-lg">{posts[0].category}</p>
+                    <p className="text-black font-bold lg:text-lg">{posts[0].title}</p>
                     <span className="text-gray-400">{format(posts[0].createdAt)}</span>
                 </div>
-                <Link className="text-gray-400 font-semibold hover:text-gray-700" to={posts[0].slug}>{posts[0].title}</Link>
+                <Link className="text-4xl text-gray-200 font-semibold bungee-regular mt-[-5px]" to={posts[0].slug}>{posts[0].title}</Link>
 
             </div>
 
@@ -49,12 +49,12 @@ const FeaturesPosts = () => {
                         />
                     </div>}
                     <div className="w-2/3">
-                        <div className="flex items-center gap-4 text-sm lg:text-base mb-4">
+                        <div className="flex items-center gap-4 text-sm lg:text-base mb-1">
                             <h1 className="font-semibold">02.</h1>
-                            <p className="text-black font-bold">{posts[1].category}</p>
+                            <p className="text-black font-bold">{posts[1].title}</p>
                             <span className="text-gray-400 text-sm">{format(posts[1].createdAt)}</span>
                         </div>
-                        <Link className="text-gray-400 font-semibold hover:text-gray-700" to={posts[1].slug}>{posts[1].title}</Link>
+                        <Link className="text-gray-200 font-semibold bungee-regular text-xl" to={posts[1].slug}>{posts[1].title}</Link>
                     </div>
                 </div>}
                 {posts[2] &&<div className="lg:h-1/3 flex justify-between gap-4">
@@ -66,12 +66,12 @@ const FeaturesPosts = () => {
                         />
                     </div>}
                     <div className="w-2/3">
-                        <div className="flex items-center gap-4 text-sm lg:text-base mb-4">
+                        <div className="flex items-center gap-4 text-sm lg:text-base mb-1">
                             <h1 className="font-semibold">03.</h1>
-                            <p className="text-black font-bold">{posts[2].category}</p>
+                            <p className="text-black font-bold">{posts[2].title}</p>
                             <span className="text-gray-400 text-sm">{format(posts[2].createdAt)}</span>
                         </div>
-                        <Link className="text-gray-400 font-semibold hover:text-gray-700" to={posts[2].slug}>{posts[2].title}</Link>
+                        <Link className="text-gray-200 font-semibold bungee-regular text-xl" to={posts[2].slug}>{posts[2].title}</Link>
                     </div>
                 </div>}
                 {posts[3] &&<div className="lg:h-1/3 flex justify-between gap-4">
@@ -83,12 +83,12 @@ const FeaturesPosts = () => {
                         />
                     </div>}
                     <div className="w-2/3">
-                        <div className="flex items-center gap-4 text-sm lg:text-base mb-4">
+                        <div className="flex items-center gap-4 text-sm lg:text-base mb-1">
                             <h1 className="font-semibold">03.</h1>
-                            <p className="text-black font-bold">{posts[3].category}</p>
+                            <p className="text-black font-bold">{posts[3].title}</p>
                             <span className="text-gray-400 text-sm">{format(posts[3].createdAt)}</span>
                         </div>
-                        <Link className="text-gray-400 font-semibold hover:text-gray-700" to={posts[3].slug}>{posts[3].title}</Link>
+                        <Link className="text-gray-200 font-semibold bungee-regular text-xl" to={posts[3].slug}>{posts[3].title}</Link>
                     </div>
                 </div>}
             </div>

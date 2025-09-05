@@ -1,5 +1,4 @@
 import { Link } from "react-router"
-import './Home.css';
 import Categories from "../components/Categories";
 import FeaturesPosts from "../components/FeaturesPosts";
 import Postlists from "../components/Postlists";
@@ -27,9 +26,8 @@ const Homepage = () => {
         </div>
         <div className="w-[15%] relative hidden md:flex justify-end">
           <Link to={'/contentwrite'}>
-            {/* <img id="lightbulb" src="/bulbm.png" className="w-35 m-4 bulb-glow" alt="Blog" /> */}
-            <img id="lightbulb" src="/bulbm.png" className="w-35 m-4" alt="Blog" />
-            <p className="text-xs font-semibold text-gray-300 absolute bottom-5 left-7 w-40"><span className="text-lime-400">Write</span> your Story <span className="text-sm text-red-400">✐ᝰ</span></p>
+            <img id="lightbulb" src="/logo.png" className="w-25 m-4" alt="Blog" />
+            <p className="text-xs font-semibold text-gray-300 absolute bottom-1 right-[-30px] w-40"><span className="text-lime-400">Write</span> your Story <span className="text-sm text-red-400">✐ᝰ</span></p>
           </Link>
         </div>
       </div>

@@ -41,18 +41,18 @@ const DraftsDashboard = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Your Saved Drafts</h1>
+            <h1 className="text-2xl font-bold mb-4"><span className="text-indigo-300">Yo</span><span className="text-indigo-400">ur</span><span className="text-indigo-500"> Sav</span><span className="text-indigo-600">ed</span><span className="text-indigo-300"> Dr</span><span className="text-indigo-400">a</span><span className="text-indigo-500">f</span><span className="text-indigo-600">ts</span></h1>
             {drafts?.length === 0 ? (
-                <p>You have no saved drafts....</p>
+                <p className="text-gray-400">You have no saved drafts....</p>
             ) : (
                 <ul className="space-y-4">
                     {drafts?.map((draft) => (
-                        <li key={draft._id} className="p-4 border rounded shadow-sm flex justify-between items-center">
+                        <li key={draft._id} className="p-4 border border-indigo-200 rounded shadow-sm flex justify-between items-center hover:scale-95 transition-transform">
                             <div>
-                                <Link to={`/contentwrite?draftId=${draft._id}`} className="text-xl font-semibold hover:underline">
+                                <Link to={`/contentwrite?draftId=${draft._id}`} className="text-xl text-blue-400 font-semibold hover:underline">
                                     {draft.title || 'Untitled Draft'}
                                 </Link>
-                                <p className="text-sm text-gray-500">Last saved: {new Date(draft.updatedAt).toLocaleDateString()}</p>
+                                <p className="text-xs text-gray-500">Last saved: {new Date(draft.updatedAt).toLocaleDateString()}</p>
                             </div>
                         </li>
                     ))}
