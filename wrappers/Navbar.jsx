@@ -22,6 +22,10 @@ const Navbar = () => {
     };
   }, [menuRef]);
 
+  const handleMenuClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <div className="w-full h-16 sm:h-20 flex items-center justify-between">
       <Link to={'/'} className="flex items-center gap-3 text-2xl font-bold outline-none">
@@ -33,7 +37,7 @@ const Navbar = () => {
           {open ? <img src="/close.png" width={13} /> : <img src="/menubar.png" width={20} />}
         </button>
         {open && <div className="w-[25%] h-45 absolute right-5 top-11 rounded text-center transition-all duration-300 ease-out 
-           transform flex flex-col p-2 items-center justify-center text-gray-400 text-sm bg-white shadow">
+           transform flex flex-col p-2 items-center justify-center text-gray-400 text-sm bg-white shadow" onClick={handleMenuClick}>
           <Link className="hover:text-lime-600" to={'/'}>Home</Link>
           <Link className="hover:text-lime-600" to={'/posts'}>Trending</Link>
           <Link className="hover:text-lime-600" to={'/posts?sort=popular'}>Popular</Link>
