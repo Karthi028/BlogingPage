@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router";
 const fetchPosts = async (pageParam, searchParams) => {
 
     const searchParamsObj = Object.fromEntries([...searchParams]);
-    
+
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts`, {
         params: { page: pageParam, limit: 10, ...searchParamsObj }
     });
@@ -27,8 +27,8 @@ const Postlists = () => {
         isFetchingNextPage,
         status,
     } = useInfiniteQuery({
-        queryKey: ['posts',searchParams.toString()],
-        queryFn: ({ pageParam = 1 }) => fetchPosts(pageParam,searchParams),
+        queryKey: ['posts', searchParams.toString()],
+        queryFn: ({ pageParam = 1 }) => fetchPosts(pageParam, searchParams),
         initialPageParam: 1,
         getNextPageParam: (lastPage, pages) => lastPage.hasMore ? pages.length + 1 : undefined,
     })

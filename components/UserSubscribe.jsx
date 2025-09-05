@@ -4,13 +4,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 
-const UserSubscribe = ({ bloggerId,clerkUserId }) => {
+const UserSubscribe = ({ bloggerId, clerkUserId }) => {
 
   const { getToken, isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
   const queryClient = useQueryClient();
 
-  // Fetch the current user's subscriptions
   const { data: subscriptions, isLoading, isError } = useQuery({
     queryKey: ['subscriptions', isSignedIn ? user.id : null],
     queryFn: async () => {
@@ -20,10 +19,9 @@ const UserSubscribe = ({ bloggerId,clerkUserId }) => {
       });
       return response.data;
     },
-    enabled: isLoaded && isSignedIn 
+    enabled: isLoaded && isSignedIn
   });
 
-  // Mutation for subscribing to a user
   const subscribeMutation = useMutation({
     mutationFn: async () => {
       const token = await getToken();
@@ -40,7 +38,6 @@ const UserSubscribe = ({ bloggerId,clerkUserId }) => {
     }
   });
 
-  // Mutation for unsubscribing from a user
   const unsubscribeMutation = useMutation({
     mutationFn: async () => {
       const token = await getToken();
@@ -57,17 +54,15 @@ const UserSubscribe = ({ bloggerId,clerkUserId }) => {
     }
   });
 
-  // Handle loading, errors, and missing bloggerId before rendering anything.
+
   if (!bloggerId || !isSignedIn || isLoading || isError) {
     return null;
   }
 
-  // Also, don't show the button on the user's own profile.
-  if (user.id === clerkUserId ) {
+  if (user.id === clerkUserId) {
     return null;
   }
 
-  // Safely check if the user is subscribed after all necessary data is loaded.
   const isSubscribed = Array.isArray(subscriptions) && subscriptions.some(sub => sub._id === bloggerId);
 
   if (isSubscribed) {

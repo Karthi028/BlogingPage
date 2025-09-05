@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { format } from "timeago.js";
 
 const Comments = ({ postId }) => {
 
@@ -17,7 +18,7 @@ const Comments = ({ postId }) => {
       const token = await getToken();
       return axios.get(`${import.meta.env.VITE_API_URL}/comments/${postId}`,
         {
-          headers:{
+          headers: {
             Authorization: `Bearer ${token}`
           }
         })
@@ -82,40 +83,40 @@ const Comments = ({ postId }) => {
   });
 
   const markAsSpamMutation = useMutation({
-        mutationFn: async (commentId) => {
-            const token = await getToken();
-            return axios.put(`${import.meta.env.VITE_API_URL}/comments/${commentId}/spam`,{isSpam:true}, {
+    mutationFn: async (commentId) => {
+      const token = await getToken();
+      return axios.put(`${import.meta.env.VITE_API_URL}/comments/${commentId}/spam`, { isSpam: true }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['comments', postId] });
-            toast.success('Comment marked as spam!');
-        },
-        onError: (err) => {
-            toast.error('Failed to mark comment as spam: ' + err.message);
-        }
-    });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+      toast.success('Comment marked as spam!');
+    },
+    onError: (err) => {
+      toast.error('Failed to mark comment as spam: ' + err.message);
+    }
+  });
 
-    const restoreCommentMutation = useMutation({
-        mutationFn: async (commentId) => {
-            const token = await getToken();
-            return axios.put(`${import.meta.env.VITE_API_URL}/comments/${commentId}/restore`,{isSpam:false}, {
+  const restoreCommentMutation = useMutation({
+    mutationFn: async (commentId) => {
+      const token = await getToken();
+      return axios.put(`${import.meta.env.VITE_API_URL}/comments/${commentId}/restore`, { isSpam: false }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['comments', postId] });
-            toast.success('Comment restored successfully!');
-        },
-        onError: (err) => {
-            toast.error('Failed to restore comment: ' + err.message);
-        }
-    });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+      toast.success('Comment restored successfully!');
+    },
+    onError: (err) => {
+      toast.error('Failed to restore comment: ' + err.message);
+    }
+  });
 
   const handleEditClick = (comment) => {
     setEditingCommentId(comment._id);
@@ -140,11 +141,11 @@ const Comments = ({ postId }) => {
   };
 
   const handleMarkAsSpam = (commentId) => {
-      markAsSpamMutation.mutate(commentId);
+    markAsSpamMutation.mutate(commentId);
   };
 
   const handleRestoreComment = (commentId) => {
-      restoreCommentMutation.mutate(commentId);
+    restoreCommentMutation.mutate(commentId);
   };
 
   const handleSubmit = (e) => {
@@ -202,6 +203,7 @@ const Comments = ({ postId }) => {
                 w="40"
               />}
               <p className="font-semibold text-gray-500">{comment.user.username}</p>
+              <p className="text-gray-400">{format(comment.createdAt)}</p>
               {(canEdit || canDelete || canModerate) && (
                 <div className="flex items-center space-x-2">
                   {isEditing ? (

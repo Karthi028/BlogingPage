@@ -4,7 +4,7 @@ import Sidemenu from "../components/Sidemenu"
 import { Link, useSearchParams } from "react-router";
 import AuthorsPostAnalytics from "../components/AuthorsPostAnalytics";
 import axios from "axios";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import UserSubscribe from "../components/UserSubscribe";
 
@@ -19,13 +19,11 @@ const fetchPosts = async (pageParam, searchParams) => {
     return res.data;
 }
 
-const fetchSubscriptions = async () => {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/subscriptions`);
-    return res.data;
-};
-
 const AuthorsPage = () => {
     const [open, setopen] = useState(false);
+    const [isEditingBio, setIsEditingBio] = useState(false);
+    const [newBio, setNewBio] = useState('');
+    const queryClient = useQueryClient();
     const [showSubscriptions, setShowSubscriptions] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const { user } = useUser();
@@ -57,9 +55,32 @@ const AuthorsPage = () => {
         enabled: isLoaded && isSignedIn
     });
 
+    const updateBioMutation = useMutation({
+        mutationFn: async (updatedBio) => {
+            const token = await getToken();
+            return axios.put(`${import.meta.env.VITE_API_URL}/users/bio`,
+                { bio: updatedBio },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(['posts', searchParams.toString()]);
+            setIsEditingBio(false);
+        },
+        onError: (error) => {
+            console.error("Failed to update bio:", error);
+        }
+    });
+
+    const handleSaveBio = () => {
+        if (newBio.length > 0) {
+            updateBioMutation.mutate(newBio);
+        }
+    };
+
     const allPosts = data?.pages?.flatMap((page) => page.posts) || [];
     const isMyDashboard = user?.username === searchParams.get('author');
-    const subscribe = user?.username !== searchParams.get('author'); 
+    const subscribe = user?.username !== searchParams.get('author');
 
     if (status === "loading") return 'Loading...'
 
@@ -91,9 +112,51 @@ const AuthorsPage = () => {
                         <h1 className="text-lime-500 font-serif text-4xl font-bold">{allPosts[0]?.user.username || user?.username}</h1>
                     </div>
                     <p className="text-sm text-gray-500 mt-1 px-4 mb-1">
-                        {allPosts[0]?.user?.bio ? allPosts[0].user.bio : "Nor is there anyone who loves, pursues, or desires pain itself, because it is pain..."}
+                        {isMyDashboard && isEditingBio ? (
+                            <textarea
+                                value={newBio}
+                                onChange={(e) => setNewBio(e.target.value)}
+                                className="w-full h-24 p-2 border rounded-md"
+                                placeholder="Edit your bio..."
+                            />
+                        ) : (
+                            <p>
+                                {allPosts[0]?.user?.bio || "Nor is there anyone who loves, pursues, or desires pain itself, because it is pain..."}
+                            </p>
+                        )}
                     </p>
-                    {subscribe && <div className="px-4 mt-2 mb-2"><UserSubscribe bloggerId={allPosts[0]?.user?._id} clerkUserId={allPosts[0]?.user?.clerkUserId}/></div>}
+                    {isMyDashboard && (
+                        <div className="px-4 mt-2">
+                            {isEditingBio ? (
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={handleSaveBio}
+                                        disabled={updateBioMutation.isLoading}
+                                        className="px-1 py-1 text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-lime-300 to-lime-500 hover:opacity-80 transition-opacity duration-300"
+                                    >
+                                        {updateBioMutation.isLoading ? "Saving..." : "Save Bio"}
+                                    </button>
+                                    <button
+                                        onClick={() => setIsEditingBio(false)}
+                                        className="px-1 py-1 text-sm font-semibold rounded-lg text-gray-500 bg-gray-200 hover:bg-gray-300 transition-colors duration-300"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        setIsEditingBio(true);
+                                        setNewBio(allPosts[0]?.user?.bio || '');
+                                    }}
+                                    className="px-1 py-1 text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-violet-300 to-violet-500 hover:opacity-80 transition-opacity duration-300"
+                                >
+                                    Edit Bio
+                                </button>
+                            )}
+                        </div>
+                    )}
+                    {subscribe && <div className="px-4 mt-2 mb-2"><UserSubscribe bloggerId={allPosts[0]?.user?._id} clerkUserId={allPosts[0]?.user?.clerkUserId} /></div>}
                     {ShowStats && <AuthorsPostAnalytics posts={allPosts} />}
                     {isMyDashboard && (
                         <div className="mt-4 px-4">

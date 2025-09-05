@@ -25,14 +25,13 @@ const NotificationBell = () => {
       return fetchNotifications(token);
     },
     enabled: isLoaded && isSignedIn,
-    staleTime: 60 * 1000 // Cache for 1 minute
+    staleTime: 60 * 1000
   });
 
   if (!isSignedIn || isLoading) {
-    return null; // Don't show the bell if the user is not signed in or data is loading
+    return null;
   }
 
-  // Simple logic to count new posts (e.g., in the last 24 hours)
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
   const newNotifications = notifications?.filter(post => new Date(post.createdAt) > twentyFourHoursAgo) || [];
   const notificationCount = newNotifications.length;

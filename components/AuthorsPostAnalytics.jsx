@@ -5,7 +5,6 @@ const AuthorsPostAnalytics = ({ posts }) => {
         return null;
     }
 
-    // Aggregate data from all posts
     const totalViews = posts.reduce((sum, post) => sum + (post.views || 0), 0);
     const totalLikes = posts.reduce((sum, post) => sum + (post.likes ? post.likes.length : 0), 0);
     const totalComments = posts.reduce((sum, post) => sum + (post.comments || 0), 0);
@@ -15,8 +14,6 @@ const AuthorsPostAnalytics = ({ posts }) => {
         { name: 'Total Likes', value: totalLikes },
         { name: 'Total Comments', value: totalComments }
     ];
-
-    console.log(totalComments);
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-md mt-8 mb-5 recharts-container-wrapper">

@@ -20,8 +20,6 @@ const DraftsDashboard = () => {
         },
     });
 
-    console.log(drafts);
-
     if (!isLoaded) {
         return <div className="">Loading...</div>;
     }

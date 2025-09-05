@@ -57,8 +57,8 @@ const FeaturesPosts = () => {
                         <Link className="text-gray-200 font-semibold bungee-regular text-xl" to={posts[1].slug}>{posts[1].title}</Link>
                     </div>
                 </div>}
-                {posts[2] &&<div className="lg:h-1/3 flex justify-between gap-4">
-                    {posts[2].img?.url &&<div className="w-1/3 aspect-video">
+                {posts[2] && <div className="lg:h-1/3 flex justify-between gap-4">
+                    {posts[2].img?.url && <div className="w-1/3 aspect-video">
                         <Image key={posts[2].img.url}
                             src={posts[2].img.url}
                             className="rounded-3xl object-cover w-full h-full"
@@ -74,8 +74,8 @@ const FeaturesPosts = () => {
                         <Link className="text-gray-200 font-semibold bungee-regular text-xl" to={posts[2].slug}>{posts[2].title}</Link>
                     </div>
                 </div>}
-                {posts[3] &&<div className="lg:h-1/3 flex justify-between gap-4">
-                    {posts[3].img?.url &&<div className="w-1/3 aspect-video">
+                {posts[3] && <div className="lg:h-1/3 flex justify-between gap-4">
+                    {posts[3].img?.url && <div className="w-1/3 aspect-video">
                         <Image key={posts[3].img.url}
                             src={posts[3].img.url}
                             className="rounded-3xl object-cover w-full h-full"

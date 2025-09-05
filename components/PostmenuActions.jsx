@@ -125,7 +125,6 @@ const PostmenuActions = ({ post }) => {
       });
     },
     onSuccess: (res) => {
-      // Invalidate the post query to re-fetch the updated like count and state
       queryClient.invalidateQueries({ queryKey: ["post", post.slug] });
     },
     onError: (error) => {
@@ -153,7 +152,6 @@ const PostmenuActions = ({ post }) => {
   return (
     <div className="">
       <h1 className="mt-8 mb-4 text-sm font-medium">Actions</h1>
-
       {user && (
         <div onClick={handleLike} className="flex items-center gap-2 py-2 text-sm cursor-pointer">
           <svg
@@ -226,7 +224,7 @@ const PostmenuActions = ({ post }) => {
         {deleteMutation.isPending && <span className="text-xs">(in progress)</span>}
 
       </div>}
-      { shouldRender  && <div><PostAnalytics post={post}/></div> }
+      {shouldRender && <div><PostAnalytics post={post} /></div>}
 
 
     </div>

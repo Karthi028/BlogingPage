@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router"
+import { useSearchParams } from "react-router"
 import Search from "./Search"
 
 const Sidemenu = () => {
@@ -18,7 +18,7 @@ const Sidemenu = () => {
     if (searchParams.get("cat") !== category) {
       setSearchParams({
         ...Object.fromEntries(searchParams.entries()),
-        cat:category,
+        cat: category,
       });
     }
   };
@@ -72,13 +72,13 @@ const Sidemenu = () => {
       </div>
       <h1 className="mt-8 mb-4 text-sm font-medium">Categories</h1>
       <div className="flex flex-col gap-2 text-xs">
-        <span className="underline text-gray-500 cursor-pointer" onClick={()=>handleCategoryChange("")}>All</span>
-        <span className="underline text-gray-500 cursor-pointer" onClick={()=>handleCategoryChange("general")}>General</span>
-        <span className="underline text-gray-500 cursor-pointer" onClick={()=>handleCategoryChange("Technology")}>Technology</span>
-        <span className="underline text-gray-500 cursor-pointer" onClick={()=>handleCategoryChange("Business")}>Business</span>
-        <span className="underline text-gray-500 cursor-pointer" onClick={()=>handleCategoryChange("Nature")}>Nature</span>
-        <span className="underline text-gray-500 cursor-pointer" onClick={()=>handleCategoryChange("Science")}>Science</span>
-        <span className="underline text-gray-500 cursor-pointer" onClick={()=>handleCategoryChange("Lifestyle")}>Lifestyle</span>
+        <span className="underline text-gray-500 cursor-pointer" onClick={() => handleCategoryChange("")}>All</span>
+        <span className="underline text-gray-500 cursor-pointer" onClick={() => handleCategoryChange("general")}>General</span>
+        <span className="underline text-gray-500 cursor-pointer" onClick={() => handleCategoryChange("Technology")}>Technology</span>
+        <span className="underline text-gray-500 cursor-pointer" onClick={() => handleCategoryChange("Business")}>Business</span>
+        <span className="underline text-gray-500 cursor-pointer" onClick={() => handleCategoryChange("Nature")}>Nature</span>
+        <span className="underline text-gray-500 cursor-pointer" onClick={() => handleCategoryChange("Science")}>Science</span>
+        <span className="underline text-gray-500 cursor-pointer" onClick={() => handleCategoryChange("Lifestyle")}>Lifestyle</span>
       </div>
     </div>
   )

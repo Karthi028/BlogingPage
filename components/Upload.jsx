@@ -1,5 +1,5 @@
 import { IKContext, IKUpload } from "imagekitio-react";
-import { useRef, useState } from "react";
+import { useRef} from "react";
 import { toast } from "react-toastify"
 
 const authenticator = async () => {
@@ -20,7 +20,7 @@ const authenticator = async () => {
 };
 
 
-const Upload = ({children,type,setprogress,setcover}) => {
+const Upload = ({ children, type, setprogress, setcover }) => {
 
     const ref = useRef(null)
 
@@ -31,12 +31,10 @@ const Upload = ({children,type,setprogress,setcover}) => {
     }
 
     const onSuccess = (res) => {
-        console.log(res)
         setcover(res)
     }
 
     const uploadProgress = (progress) => {
-        console.log(progress)
         setprogress(Math.round((progress.loaded / progress.total) * 100));
     }
 
@@ -51,7 +49,7 @@ const Upload = ({children,type,setprogress,setcover}) => {
                 accept={`${type}/*`}
                 ref={ref}
             />
-            <div className="" onClick={()=>ref.current.click()}>
+            <div className="" onClick={() => ref.current.click()}>
                 {children}
             </div>
         </IKContext>

@@ -6,7 +6,7 @@ import NotificationBell from "../components/Notification";
 const Navbar = () => {
 
   const [open, setopen] = useState(true);
-  const {user} = useUser();
+  const { user } = useUser();
 
   return (
     <div className="w-full h-16 sm:h-20 flex items-center justify-between">

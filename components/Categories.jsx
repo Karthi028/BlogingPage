@@ -25,7 +25,7 @@ const Categories = () => {
                 </Link>
             </div>
             <span className="text-xl font-medium">|</span>
-            <Search/>
+            <Search />
         </div>
     )
 }

@@ -39,7 +39,7 @@ const ContentWrite = () => {
       });
       return response.data;
     },
-    enabled: !!draftId, // This query will only run if draftId is present
+    enabled: !!draftId,
   });
 
   useEffect(() => {
@@ -104,13 +104,13 @@ const ContentWrite = () => {
     onSuccess: (response) => {
       setIsSaving(false);
       console.log(response);
-      // If a new draft was created, navigate to its URL to set the ID
+
       if (!draftId) {
         const newDraftId = response.data.post._id;
         setDraftId(newDraftId);
         navigate(`/contentwrite?draftId=${newDraftId}`, { replace: true });
       }
-      // Invalidate the 'userDrafts' query to refresh the list in the dashboard
+
       queryClient.invalidateQueries({ queryKey: ['userDrafts'] });
       toast.success("Draft saved successfully!");
     },
@@ -126,13 +126,11 @@ const ContentWrite = () => {
       });
     },
     onSuccess: () => {
-      // Optional: Invalidate user's drafts query to reflect the change immediately
       queryClient.invalidateQueries({ queryKey: ['userDrafts'] });
     },
   });
 
   const handleTagInput = (e) => {
-    // Prevent form submission when pressing Enter
     if (e.key === 'Enter') {
       e.preventDefault();
     }
@@ -155,13 +153,13 @@ const ContentWrite = () => {
 
   const prepareData = () => {
     return {
-    title: title, // Get the title from state
-    desc: desc,   // Get the desc from state
-    category: category, // Get the category from state
-    img: cover || {},
-    content: value,
-    tags: tags,
-  };
+      title: title,
+      desc: desc,
+      category: category,
+      img: cover || {},
+      content: value,
+      tags: tags,
+    };
   };
 
   const handleSubmit = (e) => {
@@ -172,9 +170,9 @@ const ContentWrite = () => {
 
   const handleSaveDraft = (e) => {
     e.preventDefault();
-      const data = prepareData();
-      draftMutation.mutate(data);
-    
+    const data = prepareData();
+    draftMutation.mutate(data);
+
   };
 
   if (isDraftLoading || draftMutation.isLoading) {
@@ -218,50 +216,50 @@ const ContentWrite = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-     <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-center">
-         <div className="flex items-center gap-4">
-          <label htmlFor="" className="text-sm font-light">
-            Choose a category:
-          </label>
-          <select
-            name="category"
-            id=""
-            className="p-2 rounded-xl bg-white shadow-md outline-none"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="general">General</option>
-            <option value="Nature">Nature</option>
-            <option value="Business">business</option>
-            <option value="Technology">Technology</option>
-            <option value="Lifestyle">Lifestyle</option>
-            <option value="Science">Science</option>
-          </select>
-        </div>
-        <div className="flex flex-col w-1/2 gap-2">
-          <label htmlFor="tags-input" className="text-sm font-light">
-            Add tags (Press Enter or comma to add)
-          </label>
-          <div className="flex flex-nowrap items-center gap-2 p-2 rounded-xl border border-lime-200 shadow-md mb-2 overflow-x-auto">
-            {tags.map((tag, index) => (
-              <span key={index} className="flex items-center bg-gray-200 text-gray-700 text-sm px-2 py-1 rounded-full">
-                {tag}
-                <button type="button" onClick={() => removeTag(tag)} className="ml-1 text-gray-500 hover:text-gray-900 focus:outline-none">
-                  &times;
-                </button>
-              </span>
-            ))}
-            <input
-              id="tags-input"
-              className="flex-grow p-2 outline-none rounded-xl"
-              type="text"
-              placeholder="e.g., programming, webdev"
-              onKeyDown={handleTagInput}
-              onKeyUp={(e) => e.key === ',' && (e.target.value = '')}
-            />
+        <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-center">
+          <div className="flex items-center gap-4">
+            <label htmlFor="" className="text-sm font-light">
+              Choose a category:
+            </label>
+            <select
+              name="category"
+              id=""
+              className="p-2 rounded-xl bg-white shadow-md outline-none"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="general">General</option>
+              <option value="Nature">Nature</option>
+              <option value="Business">business</option>
+              <option value="Technology">Technology</option>
+              <option value="Lifestyle">Lifestyle</option>
+              <option value="Science">Science</option>
+            </select>
+          </div>
+          <div className="flex flex-col w-1/2 gap-2">
+            <label htmlFor="tags-input" className="text-sm font-light">
+              Add tags (Press Enter or comma to add)
+            </label>
+            <div className="flex flex-nowrap items-center gap-2 p-2 rounded-xl border border-lime-200 shadow-md mb-2 overflow-x-auto">
+              {tags.map((tag, index) => (
+                <span key={index} className="flex items-center bg-gray-200 text-gray-700 text-sm px-2 py-1 rounded-full">
+                  {tag}
+                  <button type="button" onClick={() => removeTag(tag)} className="ml-1 text-gray-500 hover:text-gray-900 focus:outline-none">
+                    &times;
+                  </button>
+                </span>
+              ))}
+              <input
+                id="tags-input"
+                className="flex-grow p-2 outline-none rounded-xl"
+                type="text"
+                placeholder="e.g., programming, webdev"
+                onKeyDown={handleTagInput}
+                onKeyUp={(e) => e.key === ',' && (e.target.value = '')}
+              />
+            </div>
           </div>
         </div>
-     </div>
         <textarea
           className="p-4 mb-2 rounded-xl shadow-md outline-none border border-lime-200"
           name="desc"
@@ -269,7 +267,7 @@ const ContentWrite = () => {
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
         />
-        
+
         <div className="flex">
           <div className="flex flex-col gap-2 mr-3 h-70">
             <Upload
@@ -308,9 +306,6 @@ const ContentWrite = () => {
           {draftId && <button type="button" onClick={handleDeleteDraft} className="cursor-pointer ml-[-12px] mt-[-20px]"><img src="/delete.png" width={20} alt="" /></button>}
         </div>
         {"Progress:" + progress}
-        {/* {mutation.isError &&
-          <div className="font-bold w-100 text-center rounded-2xl text-sm mt-[-20px] p-1 bg-red-600 text-white">An error occurred: {mutation.error.message}</div>
-        } */}
       </form>
     </div>
   );

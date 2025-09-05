@@ -43,7 +43,7 @@ const SinglePost = () => {
             <Link to={`/authorsPage?author=${data.user.username}`} className="text-lime-500 font-serif ">{data.user.username}</Link>
             <span>on</span>
             <Link className="text-lime-500 font-serif">{data.category}</Link>
-            <span>{format(data.createAt)}</span>
+            <span>{format(data.createdAt)}</span>
           </div>
           <p className="text-gray-500 font-medium">{data.desc}</p>
         </div>
