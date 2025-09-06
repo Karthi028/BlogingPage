@@ -24,9 +24,6 @@ const Homepage = () => {
   };
   const mutation = useMutation({
     mutationFn: syncUser,
-    onSuccess: () => {
-      console.log('User data synced successfully!');
-    },
     onError: (error) => {
       console.error('Failed to sync user data:', error);
     },
