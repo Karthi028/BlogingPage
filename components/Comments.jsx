@@ -48,7 +48,7 @@ const Comments = ({ postId }) => {
   const editCommentMutation = useMutation({
     mutationFn: async ({ commentId, desc }) => {
       const token = await getToken();
-      return axios.put(`${import.meta.env.VITE_API_URL}/comments/${commentId}`, desc, {
+      return axios.put(`${import.meta.env.VITE_API_URL}/comments/${commentId}`, { desc: desc }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -135,9 +135,30 @@ const Comments = ({ postId }) => {
   };
 
   const handleDeleteClick = (commentId) => {
-    if (window.confirm("Are you sure you want to delete this comment?")) {
-      deleteCommentMutation.mutate(commentId);
-    }
+    toast((t) => { 
+      return (
+        <div>
+          <p>Are you sure you want to <span className="text-red-600">delete</span>?</p>
+          <div className="flex gap-5">
+            <button
+              className="hover:text-red-500 text-sm font-bold"
+              onClick={() => {
+                toast.dismiss(t.id);
+                deleteCommentMutation.mutate(commentId);
+              }}
+            >
+              OK
+            </button>
+            <button
+              className="hover:text-lime-500 text-sm font-bold"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      );
+    });
   };
 
   const handleMarkAsSpam = (commentId) => {
@@ -161,7 +182,22 @@ const Comments = ({ postId }) => {
   }
 
   if (isPending || !isLoaded) {
-    return <div className="p-4 text-center">Loading comments...</div>;
+    return (<div className="p-4 font-bold text-center"><span className="text-purple-200">L</span>
+      <span className="text-purple-300">o</span>
+      <span className="text-purple-400">a</span>
+      <span className="text-purple-500">d</span>
+      <span className="text-purple-600">i</span>
+      <span className="text-purple-700">n</span>
+      <span className="text-purple-800">g</span>
+      <span className="text-purple-300"> C</span>
+      <span className="text-purple-400">o</span>
+      <span className="text-purple-500">m</span>
+      <span className="text-purple-600">m</span>
+      <span className="text-purple-700">e</span>
+      <span className="text-purple-800">n</span>
+      <span className="text-purple-700">t</span>
+      <span className="text-purple-800">s</span>
+      ...</div>);
   }
 
   if (error) {
@@ -180,8 +216,8 @@ const Comments = ({ postId }) => {
         />
         <button
           type="submit"
-          className="bg-lime-500 px-4 py-3 text-white font-medium rounded-xl cursor-pointer"
-          disabled={addCommentMutation.isPending}
+          className="bg-lime-500 px-4 py-3 text-white font-medium rounded-xl cursor-pointer disabled:cursor-not-allowed"
+          disabled={!isSignedIn || addCommentMutation.isPending}
         >
           {addCommentMutation.isPending ? 'Sending...' : 'Send'}
         </button>

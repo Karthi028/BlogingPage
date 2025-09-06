@@ -48,7 +48,14 @@ const Tags = () => {
     });
 
     if (isPending || !isLoaded) {
-        return <div className="p-4 text-center">Loading...</div>;
+        return (<div className="p-4 font-bold"><span className="text-purple-200">L</span>
+        <span className="text-purple-300">o</span>
+        <span className="text-purple-400">a</span>
+        <span className="text-purple-500">d</span>
+        <span className="text-purple-600">i</span>
+        <span className="text-purple-700">n</span>
+        <span className="text-purple-800">g</span>
+        ...</div>);
     }
 
     if (error) {

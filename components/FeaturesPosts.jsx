@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router"
 import { format } from "timeago.js";
 import Image from "./Image";
+import Anime from "../components/AnimeImage"
 
 const fetchPost = async () => {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/?featured=true&limit=4&sort=newest/Star`)
@@ -17,7 +18,7 @@ const FeaturesPosts = () => {
         queryFn: () => fetchPost()
     })
 
-    if (isPending) return "Loading...";
+    if (isPending) return <Anime/>;
     if (error) return "Something went wrong" + error.message;
     const posts = data.posts;
     if (!posts || posts.length === 0) {

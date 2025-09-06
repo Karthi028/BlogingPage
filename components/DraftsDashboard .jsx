@@ -1,11 +1,13 @@
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import Anime from "../components/AnimeImage"
 
 const DraftsDashboard = () => {
     const { getToken } = useAuth();
     const { isLoaded, isSignedIn } = useUser();
+    const navigate = useNavigate();
 
     const { data: drafts, isLoading, isError, error } = useQuery({
         queryKey: ['userDrafts'],
@@ -21,27 +23,39 @@ const DraftsDashboard = () => {
     });
 
     if (!isLoaded) {
-        return <div className="">Loading...</div>;
+        return <Anime />;
     }
 
     if (isLoaded && !isSignedIn) {
-        return <div className="">You should login!</div>;
+        navigate('/login');
     }
 
 
     if (isLoading) {
-        return <div>Loading drafts...</div>;
+        return (<div className="p-4 font-bold text-center"><span className="text-purple-200">L</span>
+            <span className="text-purple-300">o</span>
+            <span className="text-purple-400">a</span>
+            <span className="text-purple-500">d</span>
+            <span className="text-purple-600">i</span>
+            <span className="text-purple-700">n</span>
+            <span className="text-purple-800">g</span>
+            ...</div>);
     }
 
     if (isError) {
-        return <div>Error fetching drafts: {error.message}</div>;
+        return <div className="text-red-400">Error fetching drafts: {error.message}</div>;
     }
 
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4"><span className="text-indigo-300">Yo</span><span className="text-indigo-400">ur</span><span className="text-indigo-500"> Sav</span><span className="text-indigo-600">ed</span><span className="text-indigo-300"> Dr</span><span className="text-indigo-400">a</span><span className="text-indigo-500">f</span><span className="text-indigo-600">ts</span></h1>
             {drafts?.length === 0 ? (
-                <p className="text-gray-400">You have no saved drafts....</p>
+                <p className="text-gray-400"><span className="text-purple-300">You</span>
+                    <span className="text-purple-400"> have</span>
+                    <span className="text-purple-500"> no</span>
+                    <span className="text-purple-600"> Saved</span>
+                    <span className="text-purple-700"> Drafts</span>
+                    <span className="text-purple-800">....</span></p>
             ) : (
                 <ul className="space-y-4">
                     {drafts?.map((draft) => (

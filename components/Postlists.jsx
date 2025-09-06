@@ -2,7 +2,9 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import Postlistitems from "./Postlistitems"
 import axios from "axios"
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
+import Anime from "../components/AnimeImage"
+import { useUser } from "@clerk/clerk-react";
 
 const fetchPosts = async (pageParam, searchParams) => {
 
@@ -17,6 +19,8 @@ const fetchPosts = async (pageParam, searchParams) => {
 const Postlists = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const {user} = useUser();
+    
 
     const {
         data,
@@ -34,10 +38,23 @@ const Postlists = () => {
     })
 
     const allPosts = data?.pages?.flatMap((page) => page.posts) || [];
+    const Author = searchParams.get("author") === user?.username;
 
-    if (status === "loading") return 'Loading...'
-
+    if (status === "loading") return <Anime />
     if (status === "error") return 'An error has occurred';
+
+    if (allPosts.length === 0 && Author) {
+        return (
+            <div className="flex flex-col items-center justify-center p-8 bg-gray-100 rounded-lg">
+                <Link to={'/contentwrite'} className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-700">
+                    Create Your First Post!
+                </Link>
+                <p className="mt-2 text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-cyan-700">
+                    Looks like you haven't created any posts yet.
+                </p>
+            </div>
+        );
+    }
 
     return (
         <InfiniteScroll

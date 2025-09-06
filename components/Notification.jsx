@@ -17,19 +17,8 @@ const NotificationBell = () => {
   const { user } = useUser();
   const [showNotifications, setShowNotifications] = useState(false);
   const notificationRef = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
-        setShowNotifications(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [notificationRef]);
+  const [isBouncing, setIsBouncing] = useState(false);
+  const prevCountRef = useRef(0);
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -42,19 +31,47 @@ const NotificationBell = () => {
     staleTime: 60 * 1000
   });
 
-  if (!isSignedIn || isLoading) {
-    return null;
-  }
-
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
   const newNotifications = notifications?.filter(post => new Date(post.createdAt) > twentyFourHoursAgo) || [];
   const notificationCount = newNotifications.length;
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const prevCount = prevCountRef.current;
+
+    if (notificationCount > prevCount && notificationCount > 0) {
+      setIsBouncing(true);
+
+      const timerId = setTimeout(() => {
+        setIsBouncing(false);
+      }, 3000);
+
+      return () => clearTimeout(timerId);
+    }
+    prevCountRef.current = notificationCount;
+  }, [notificationCount]);
+
+  if (!isSignedIn || isLoading) {
+    return null;
+  }
 
   return (
     <div className="relative" ref={notificationRef}>
       <button
         onClick={() => setShowNotifications(!showNotifications)}
-        className="relative"
+        className={`relative ${notificationCount > 0 ? 'animate-bounce' : ''}`}
       >
         <img src="/bell.png" className="w-5 sm:w-6 m-1" alt="" />
         {notificationCount > 0 && (

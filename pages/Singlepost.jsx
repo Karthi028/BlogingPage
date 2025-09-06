@@ -10,6 +10,7 @@ import Tags from "../components/Tags"
 import UserSubscribe from "../components/UserSubscribe"
 import SocialShare from "../components/SocialShare"
 import { useUser } from "@clerk/clerk-react"
+import Anime from "../components/AnimeImage"
 
 const fetchPost = async (slug) => {
   const response = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`)
@@ -25,13 +26,12 @@ const SinglePost = () => {
     queryFn: () => fetchPost(slug)
   })
 
-  if (isPending) return "Loading...";
+  if (isPending) return <Anime/>;
   if (error) return "Something went wrong" + error.message;
   if (!data) return "post not found";
 
   return (
     <div className="flex flex-col gap-8 mb-5 mt-3">
-
       <div className="flex gap-8">
         <div className="lg:w-3/5 flex flex-col gap-8">
           <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">
