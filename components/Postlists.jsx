@@ -21,7 +21,6 @@ const Postlists = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const { user } = useUser();
 
-
     const {
         data,
         error,
@@ -40,7 +39,6 @@ const Postlists = () => {
     const allPosts = data?.pages?.flatMap((page) => page.posts) || [];
     const Author = searchParams.get("author") === user?.username;
     const Category = searchParams.get("cat");
-    console.log(Category);
 
     if (status === "loading") return <Anime />
     if (status === "error") return 'An error has occurred';
