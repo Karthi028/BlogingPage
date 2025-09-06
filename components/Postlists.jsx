@@ -39,6 +39,8 @@ const Postlists = () => {
 
     const allPosts = data?.pages?.flatMap((page) => page.posts) || [];
     const Author = searchParams.get("author") === user?.username;
+    const Category = searchParams.get("cat");
+    console.log(Category);
 
     if (status === "loading") return <Anime />
     if (status === "error") return 'An error has occurred';
@@ -65,6 +67,8 @@ const Postlists = () => {
     }
 
     return (
+        <div>
+            {Category && <p className="mb-2 h-13 -mt-2 text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-900">{Category}</p>}
         <InfiniteScroll
             dataLength={allPosts.length}
             next={fetchNextPage}
@@ -81,6 +85,7 @@ const Postlists = () => {
                 return <Postlistitems key={index} post={post} />
             })}
         </InfiniteScroll>
+        </div>
 
     )
 }
