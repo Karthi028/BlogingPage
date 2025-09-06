@@ -2,8 +2,41 @@ import { Link } from "react-router"
 import Categories from "../components/Categories";
 import FeaturesPosts from "../components/FeaturesPosts";
 import Postlists from "../components/Postlists";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect } from "react";
 
 const Homepage = () => {
+
+  const { isLoaded, isSignedIn, user } = useUser();
+  const { getToken } = useAuth();
+  const queryClient = useQueryClient();
+
+  const syncUser = async (clerkUserId) => {
+    const token = await getToken();
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/sync-user`, { clerkUserId }, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  };
+  const mutation = useMutation({
+    mutationFn: syncUser,
+    onSuccess: () => {
+      console.log('User data synced successfully!');
+    },
+    onError: (error) => {
+      console.error('Failed to sync user data:', error);
+    },
+  });
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      mutation.mutate(user.id);
+    }
+  }, [isLoaded, isSignedIn, user]);
 
   return (
     <div className="mt-5 flex flex-col gap-3">

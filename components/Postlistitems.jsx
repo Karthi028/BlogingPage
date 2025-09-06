@@ -14,7 +14,7 @@ const Postlistitems = ({ post }) => {
         </Link>
         <div className="flex items-center gap-2 text-gray-400 text-sm">
           <span>Written by</span>
-          <Link className="text-lime-500 font-bold" to={`/authorsPage?author=${post.user.username}`}>{post.user.username}</Link>
+          <Link className="text-lime-500 font-bold" to={`/authorsPage?author=${post?.user?.username}`}>{post?.user?.username}</Link>
           <span>on</span>
           <div className="text-gray-700 hover:text-lime-500">{post.category}</div>
           <span>{format(post.createdAt)}</span>
