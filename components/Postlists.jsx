@@ -19,8 +19,8 @@ const fetchPosts = async (pageParam, searchParams) => {
 const Postlists = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const {user} = useUser();
-    
+    const { user } = useUser();
+
 
     const {
         data,
@@ -42,6 +42,14 @@ const Postlists = () => {
 
     if (status === "loading") return <Anime />
     if (status === "error") return 'An error has occurred';
+    if (isFetching) return (<div className="p-4 font-bold text-center"><span className="text-purple-200">L</span>
+        <span className="text-purple-300">o</span>
+        <span className="text-purple-400">a</span>
+        <span className="text-purple-500">d</span>
+        <span className="text-purple-600">i</span>
+        <span className="text-purple-700">n</span>
+        <span className="text-purple-800">g</span>
+        ...</div>);
 
     if (allPosts.length === 0 && Author) {
         return (
