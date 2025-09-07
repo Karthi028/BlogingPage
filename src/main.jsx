@@ -19,7 +19,7 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById('root')).render(
   <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
     <QueryClientProvider client={queryClient}>
-      <ToastContainer position='bottom-right'/>
+      <ToastContainer position='bottom-right' className='toast-container-mobile'/>
         <App />
     </QueryClientProvider>
   </ClerkProvider>

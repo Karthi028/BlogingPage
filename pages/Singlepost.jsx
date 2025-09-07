@@ -20,22 +20,34 @@ const fetchPost = async (slug) => {
 const SinglePost = () => {
 
   const { slug } = useParams();
-  const {user} = useUser();
+  const { user } = useUser();
   const { isPending, error, data } = useQuery({
     queryKey: ['post', slug],
     queryFn: () => fetchPost(slug)
   })
 
-  if (isPending) return <Anime/>;
+  if (isPending) return <Anime />;
   if (error) return "Something went wrong" + error.message;
   if (!data) return "post not found";
+
+  const title = data.title;
 
   return (
     <div className="flex flex-col gap-8 mb-5 mt-3">
       <div className="flex gap-8">
         <div className="lg:w-3/5 flex flex-col gap-8">
-          <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-semibold">
-            {data.title}
+          <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-bold">
+            <span className="text-purple-400">{title[0]}</span>
+            {title.length > 1 && (
+              <span className="text-purple-400">
+                {title.charAt(1)}
+              </span>
+            )}
+            {title.length > 2 && (
+              <span className="text-purple-500">
+                {title.slice(2)}
+              </span>
+            )}
           </h1>
           <Tags />
           <div className="flex items-center gap-2 text-gray-400 text-sm">
@@ -69,11 +81,11 @@ const SinglePost = () => {
                 w="48"
                 h="48"
               />}
-              <Link className="text-lime-500 font-serif text-sm">{data.user.username}</Link>
+              <Link to={`/authorsPage?author=${data.user.username}`} className="text-lime-500 font-serif text-sm">{data.user.username}</Link>
               <UserSubscribe bloggerId={data.user._id} clerkUserId={data.user?.clerkUserId} />
             </div>
             <p className="text-sm text-gray-500">
-              {data?.user?.bio? data.user.bio :"Nor is there anyone who loves, pursues, or desires pain itself, because it is pain..."}
+              {data?.user?.bio ? data.user.bio : "Nor is there anyone who loves, pursues, or desires pain itself, because it is pain..."}
             </p>
             <SocialShare post={data} />
           </div>

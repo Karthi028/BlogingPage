@@ -31,7 +31,20 @@ body {
   .cl-userButtonPopoverCard {
     top: 5rem !important;
     left: 1rem !important;
-   
+
   }
 }
 
+.toast-container-mobile {
+  width: auto;
+}
+
+@media (max-width: 768px) {
+  .toast-container-mobile {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 30px;
+    top: auto;
+  }
+}
