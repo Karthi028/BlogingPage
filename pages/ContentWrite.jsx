@@ -58,8 +58,15 @@ const ContentWrite = () => {
   }, [image])
 
   useEffect(() => {
-    video && setValue(prev => prev + `<p><iframe class="ql-video" src="${video.url}"/></p>`)
-  }, [video])
+    if (video) {
+      const videoHtml = `
+            <div class="video-container">
+                <iframe class="ql-video" src="${video.url}" frameborder="0" allowfullscreen></iframe>
+            </div>
+        `;
+      setValue(prev => prev + `<p>${videoHtml}</p>`);
+    }
+  }, [video]);
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -199,6 +206,8 @@ const ContentWrite = () => {
     navigate('/')
   }
 
+  const isUploading = progress > 0 && progress < 100;
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex gap-5 items-center justify-between">
@@ -222,14 +231,18 @@ const ContentWrite = () => {
 
         </Upload>
 
-        <input
-          className="text-4xl font-semibold bg-transparent outline-none h-12"
-          type='text'
-          placeholder="My Story Talks!!"
-          name="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <div className="relative">
+          <p className="text-xs absolute -top-3.5 text-red-400">Title:</p>
+          <input
+            className="text-4xl font-semibold bg-transparent outline-none h-12"
+            type='text'
+            placeholder="My Story Talks!!"
+            name="title"
+            value={title}
+            required
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
         <div className="flex flex-col gap-5 md:flex-row md:justify-between md:items-center">
           <div className="flex items-center gap-4">
             <label htmlFor="" className="text-sm font-light">
@@ -311,11 +324,11 @@ const ContentWrite = () => {
           />
         </div>
         <div className="flex gap-4 items-center mt-10">
-          <button type="submit" disabled={mutation.isPending} className="bg-lime-400 cursor-pointer text-white font-medium rounded-xl mt-4 p-2 w-36 disabled:bg-lime-100
+          <button type="submit" disabled={mutation.isPending || isUploading} className="bg-lime-400 cursor-pointer text-white font-medium rounded-xl mt-4 p-2 w-36 disabled:bg-lime-100
          disabled:cursor-not-allowed">
             {mutation.isPending ? 'Loading...' : "send"}
           </button>
-          <button type="button" onClick={handleSaveDraft} disabled={draftMutation.isPending} className="bg-gray-400 cursor-pointer text-white font-medium rounded-xl mt-4 p-2 w-36 disabled:bg-gray-100 disabled:cursor-not-allowed">
+          <button type="button" onClick={handleSaveDraft} disabled={draftMutation.isPending || isUploading} className="bg-gray-400 cursor-pointer text-white font-medium rounded-xl mt-4 p-2 w-36 disabled:bg-gray-100 disabled:cursor-not-allowed">
             {draftMutation.isPending ? 'Saving...' : "Save Draft"}
           </button>
           {draftId && <button type="button" onClick={handleDeleteDraft} className="cursor-pointer ml-[-12px] mt-[-20px]"><img src="/delete.png" width={20} alt="" /></button>}
